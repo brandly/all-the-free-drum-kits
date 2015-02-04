@@ -1,0 +1,25 @@
+{
+  "name": "all-the-free-drum-kits",
+  "version": "1.0.0",
+  "description": "scrape freedrumkits.net",
+  "private": true,
+  "main": "index.js",
+  "dependencies": {
+    "request": "^2.53.0",
+    "trumpet": "^1.7.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/brandly/all-the-free-drum-kits.git"
+  },
+  "author": "Matthew Brandly <brandly13@gmail.com> (http://brandly.me/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/brandly/all-the-free-drum-kits/issues"
+  },
+  "homepage": "https://github.com/brandly/all-the-free-drum-kits"
+}
