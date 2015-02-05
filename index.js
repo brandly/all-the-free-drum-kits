@@ -1,11 +1,13 @@
+'use strict';
 var fs = require('fs');
+var path = require('path');
 var request = require('request');
 var trumpet = require('trumpet');
 
 var baseUrl = 'http://www.freedrumkits.net';
 var kitsPerPage = 10;
 
-function createDrumKitFinder () {
+function createDrumKitFinder() {
   var tr = trumpet();
 
   tr.selectAll('.rd_file .folder_url', function (anchor) {
@@ -15,34 +17,37 @@ function createDrumKitFinder () {
   return tr;
 }
 
-function downloadDrumKit (href) {
+function downloadDrumKit(href, dest) {
     var drumKitName = href.split('/').pop();
     console.log('Downloading ' + drumKitName);
 
-    var out = fs.createWriteStream(drumKitName + '.zip');
+    var out = fs.createWriteStream(path.resolve(dest, drumKitName + '.zip'));
     request(baseUrl + href + '/download')
       .pipe(out);
 }
 
-// Each URL is like `?start=10` to skip the first 10 kits.
-function getDrumKits (start) {
-  var pageRequest = request(baseUrl + '/drum-kits?start=' + start)
+module.exports = function getDrumKits(opts) {
+  opts || (opts = {});
+  opts.start || (opts.start = 0);
+  opts.dest || (opts.dest = __dirname);
+
+  var pageRequest = request(baseUrl + '/drum-kits?start=' + opts.start)
 
   var pageHasDrumKit = false;
   pageRequest
     .pipe(createDrumKitFinder())
     .on('drumKit', function (href) {
       pageHasDrumKit = true;
-      downloadDrumKit(href);
+      downloadDrumKit(href, opts.dest);
     });
 
   pageRequest.on('end', function () {
     if (pageHasDrumKit) {
       // Get the next page!
-      getDrumKits(start + kitsPerPage);
+      getDrumKits({
+        start: opts.start + kitsPerPage,
+        dest: opts.dest
+      });
     }
   });
 }
-
-// lezdoit
-getDrumKits(0);

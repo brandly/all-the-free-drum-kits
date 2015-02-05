@@ -5,6 +5,7 @@
   "private": true,
   "main": "index.js",
   "dependencies": {
+    "meow": "^3.0.0",
     "request": "^2.53.0",
     "trumpet": "^1.7.0"
   },
