@@ -31,7 +31,7 @@ module.exports = function getDrumKits(opts) {
   opts.start || (opts.start = 0);
   opts.dest || (opts.dest = __dirname);
 
-  var pageRequest = request(baseUrl + '/drum-kits?start=' + opts.start)
+  var pageRequest = request(baseUrl + '/drum-kits?start=' + opts.start);
 
   var pageHasDrumKit = false;
   pageRequest
@@ -50,4 +50,4 @@ module.exports = function getDrumKits(opts) {
       });
     }
   });
-}
+};
